@@ -37,7 +37,7 @@ export async function mainDeployDeployer() {
 
     const deployerContractAddress = getContractAddress({
       from: deployer.address,
-      nonce: 0,
+      nonce: 2024092601,
     });
 
     const chainId = (await provider.getNetwork()).chainId;
@@ -109,6 +109,11 @@ export async function mainDeployDeployer() {
 function getDeploymentGasPrice(): number {
   // TESTNETS
   if (
+    hardhat.network.name === "derachain" &&
+    hardhat.network.config.chainId === 20240801
+  ) {
+    return 25e9;
+  } else if (
     hardhat.network.name === "polygon_mumbai" &&
     hardhat.network.config.chainId === 80001
   ) {

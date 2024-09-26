@@ -1,12 +1,8 @@
-![Solidity](https://img.shields.io/badge/Solidity-0.8.17-blue.svg) ![Hardhat](https://img.shields.io/badge/Framework-Hardhat-brightgreen.svg) ![Foundry](https://img.shields.io/badge/Framework-Foundry-orange.svg) ![Test Coverage](https://img.shields.io/badge/Coverage-45%25-red.svg)
+# Account Abstraction smart contracts
 
-# Biconomy Smart Account: Leading Implementation of Account Abstraction 🌐
+The suite of Account Abstraction (AA) smart contracts, based on [Bicomony open-source](https://github.com/bcnmy/scw-contracts).
 
-Biconomy Smart Account is a smart contract wallet focused on implementing Account Abstraction. It builds on the core concepts of Gnosis and Argent safes and is compliant with [ERC-4337](https://eips.ethereum.org/EIPS/eip-4337) and [ERC-6900](https://eips.ethereum.org/EIPS/eip-6900).
-
-<p align="center"><img src="./assets/readme/biconomy-account-abstraction.png" width="550" alt="Biconomy Account Abstraction Banner"></p>
-
-## 📜 Smart Contracts
+## Smart Contracts
 
 - **BaseSmartAccount.sol**: An abstract contract implementing the EIP4337 IWallet interface.
 - **Proxy.sol**: A lightweight proxy upgradeable through the UUPS pattern.
@@ -22,171 +18,104 @@ Biconomy Smart Account is a smart contract wallet focused on implementing Accoun
 - **VerifyingSingletonPaymaster.sol**: A paymaster that uses an external service for transaction validation.
 - **PaymasterHelpers.sol**: A library essential for decoding paymaster data and context.
 
-## 🛠️ Prerequisites
+## Prerequisites
 
-- Node.js
-- Yarn or npm
-- Hardhat
-
-## 🚀 How to Run the Project
-
-Before diving in, place a mnemonic in a `.secret` file at the root.
-**Remember**: Never commit this file or share it publicly.
+- [NodeJS v20 LTS](https://nodejs.org/en/blog/release/v20.9.0) with yarn installed.
+- [Hardhat latest version](https://hardhat.org/)
 
 ## Setup
 
-**Setup**: Clone the repository and install dependencies.
-
-   ```shell
-   git clone https://github.com/bcnmy/scw-contracts.git
-   cd scw-contracts
-   npm install
-   ```
-
-**Configuration**: Create a `.secret` file at the root to store your mnemonic.
-   **Note**: Never commit this file.
-   `shell
-    echo "your mnemonic here" > .secret
-    `
-
-### 🛠️ Development Commands
-
-Below are the commands you can use for various tasks:
-
-### 🧪 Testing
-
-Run regular tests:
-
-```shell
-npx hardhat test
+- Install `yarn`
+```sh
+$ npm install -g yarn
 ```
 
-For Bundler Integration Tests, first install `realpath`:
-
+- Create a `.secret` file at the root to store your mnemonic.
+**Note**: Never commit this file.
 ```shell
-brew install coreutils
+$ echo "your mnemonic here" > .secret
 ```
 
-Then, run the Bundler Integration Tests:
-
-```shell
-yarn bundler-test
+- Create a `.env` from template and populate it with necessary secrets and credentials.
+```sh
+$ cp .env.example .env
 ```
 
-### 📦 Compilation & Deployment
-
-Compile contracts:
-
-```shell
-npx hardhat compile
+- Install dependencies
+```sh
+$ yarn
 ```
 
-Clean the environment:
+## Compile
 
-```shell
-npx hardhat clean
+- Compile smart contracts
+```sh
+$ npx hardhat clean && npx hardhat compile
 ```
 
-Start a local Ethereum node:
+## Test
 
-```shell
-npx hardhat node
+- Execute unit tests
+```sh
+$ npx hardhat test
 ```
 
-Deploy contracts:
-
-```shell
-npx hardhat run scripts/deploy.ts
-TS_NODE_FILES=true npx ts-node scripts/deploy.ts
+- Test with gas report:
+```sh
+$ REPORT_GAS=true npx hardhat test
 ```
 
-### 📈 Analysis & Reporting
-
-Display available accounts:
-
-```shell
-npx hardhat accounts
+- Generate code coverage report:
+```sh
+$ npx hardhat coverage
 ```
 
-Get help on Hardhat commands:
-
-```shell
-npx hardhat help
+- Execute Bundler Integration Tests:
+```sh
+$ yarn bundler-test
 ```
 
-Test with gas report:
+## Deploy
 
-```shell
-REPORT_GAS=true npx hardhat test
+- Deploy `deployer` contract
+```sh
+$ npx hardhat run scripts/deploy.ts --network derachain
+```
+you should note that `Deployed new Deployer Contract at 0x... on chain derachain: 20240801` is printed out without errors.
+
+- Populate deployed address from previous step to `.env` file
+```sh
+DEPLOYER_CONTRACT_ADDRESS_PROD="0x..."
 ```
 
-Generate code coverage report:
-
-```shell
-npx hardhat coverage
+- Deploy other contracts
+```sh
+$ npx hardhat run scripts/deploy.ts --network derachain
+```
+you should note that fully suite of smart contracts is printed out without errors. For example:
+```json
+Deployed Contracts:  {
+  "EntryPoint": "0x3dF0697D2446f86a37F0efa445c620Cb935F164c",
+  "SmartAccount": "0x3aCfe599036370435becB228321E8d37C81d2a12",
+  "SmartAccountFactory": "0xCe3068038C7200EEDeE95D63Bf1607977F4c32e3",
+  "VerifyingPaymaster": "0x573E1d7ea4bcd28C77372f3EfaC599D59f470c8E",
+  "EcdsaOwnershipRegistryModule": "0x9102Fa334996E08cB7FdE9Dfe8DD9A73C7b9f4c2",
+  "MultichainValidatorModule": "0x6EE21DB40b4869e37Cc99aB0C3240f7949521cEe",
+  "PasskeyModule": "0x3D386612da26794B805e30Ccf84a25ea66716c09",
+  "SessionKeyManagerModule": "0x2Cdf767D5e44916fd8F03D4072e551CCd72563C0",
+  "ERC20SessionValidationModule": "0x9c07103dEF14a6642E02781939c4A8267f69098D",
+  "SmartContractOwnershipRegistryModule": "0xE367A9D88f5debDACF7141FfCE49a14CD01b4B4D"
+}
 ```
 
-### 🧹 Code Quality & Formatting
+## Verify
 
-Lint JavaScript and TypeScript files:
-
-```shell
-npx eslint '**/*.{js,ts}'
+- Verify smart contracts on DERA chain
+```sh
+$ npx hardhat verify <contract-address> --network derachain
 ```
 
-Automatically fix linting issues:
-
-```shell
-npx eslint '**/*.{js,ts}' --fix
+or with constructor arguments
+```sh
+$ npx hardhat verify <contract-address> <constructor-arg1> <constructor-arg2> ... --network derachain
 ```
-
-Check formatting for JSON, Solidity, and Markdown files:
-
-```shell
-npx prettier '**/*.{json,sol,md}' --check
-```
-
-Automatically format files:
-
-```shell
-npx prettier '**/*.{json,sol,md}' --write
-```
-
-Lint Solidity contracts:
-
-```shell
-npx solhint 'contracts/**/*.sol'
-```
-
-Automatically fix issues in Solidity contracts:
-
-```shell
-npx solhint 'contracts/**/*.sol' --fix
-```
-
----
-
-This format separates the description from the command, making it clearer and more readable.
-
-## 🔍 Etherscan Verification
-
-To verify on Etherscan, deploy a contract to an Ethereum network supported by Etherscan, like Ropsten. Set up your `.env` file, deploy your contract, and then verify:
-
-```shell
-hardhat run --network goerli scripts/deploy.ts
-npx hardhat verify --network goerli DEPLOYED_CONTRACT_ADDRESS "Hello, Hardhat!"
-```
-
-## ⚡ Performance Optimizations
-
-Boost your tests and scripts' speed by setting the `TS_NODE_TRANSPILE_ONLY` environment variable to `1` in Hardhat's environment. More details are available in the [documentation](https://hardhat.org/guides/typescript.html#performance-optimizations).
-
----
-
-## 🤝 Contributing
-
-Biconomy Smart Account is an open-source project. Contributions are welcome. If you're interested in contributing, please check our [contribution guidelines](./CONTRIBUTING.md) and feel free to submit pull requests or raise issues.
-
-## 📜 License
-
-This project is licensed under the MIT License. See the [LICENSE.md](./LICENSE.md) file for details.

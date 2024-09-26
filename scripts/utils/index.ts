@@ -64,12 +64,12 @@ export const DEPLOYMENT_SALTS_DEV: DeploymentSaltsType = {
 
 // Prod Salts
 export const DEPLOYMENT_SALTS_PROD: DeploymentSaltsType = {
-  ENTRY_POINT: "",
-  MULTI_SEND: "",
-  WALLET_FACTORY: "PROD_WALLET_FACTORY_V2_0509023SexZu7Y",
-  WALLET_IMP: "PROD_WALLET_IMP_V2_05092023_ixWZVOM",
-  SINGELTON_PAYMASTER: "PROD_SINGLETON_PAYMASTER_V1_22082023N4hlwuH",
-  ECDSA_REGISTRY_MODULE: "PROD_ECDSA_REGISTRY_MODULE_V1_22082023_ypI3tHh",
+  ENTRY_POINT: "DARECHAIN_ENTRY_POINT_V2024092601",
+  MULTI_SEND: "DARECHAIN_MULTI_SEND_V2024092601",
+  WALLET_FACTORY: "DARECHAIN_PROD_WALLET_FACTORY_V2024092601",
+  WALLET_IMP: "DARECHAIN_PROD_WALLET_IMP_V2024092601",
+  SINGELTON_PAYMASTER: "DARECHAIN_PROD_SINGLETON_PAYMASTER_V2024092601",
+  ECDSA_REGISTRY_MODULE: "DARECHAIN_PROD_ECDSA_REGISTRY_MODULE_V2024092601",
   MULTICHAIN_VALIDATOR_MODULE:
     "PROD_MULTICHAIN_VALIDATOR_MODULE_V1_22082023_vdQZbfh",
   PASSKEY_MODULE: "PROD_PASSKEY_MODULE_V1_22082023_n0nz9WE",
@@ -91,6 +91,8 @@ export const DEPLOYMENT_CHAIN_GAS_PRICES: Record<
   | { gasPrice: BigNumberish }
 > = {
   // Testnets
+  20240801: { gasPrice: parseUnits("30", "gwei") },
+  12345: { gasPrice: parseUnits("30", "gwei") },
   80001: { gasPrice: parseUnits("100", "gwei") },
   97: { gasPrice: parseUnits("5", "gwei") },
   5: {
@@ -156,6 +158,14 @@ export type StakingConfig = {
 
 export const factoryStakeConfig: Record<number, StakingConfig> = {
   // Testnets
+  20240801: {
+    unstakeDelayInSec: 60 * 60 * 24, // 1 Day
+    stakeInWei: parseEther("1000"),
+  },
+  12345: {
+    unstakeDelayInSec: 60 * 60 * 24, // 1 Day
+    stakeInWei: parseEther("1000"),
+  },
   80001: {
     unstakeDelayInSec: 60 * 60 * 24, // 1 Day
     stakeInWei: parseEther("0.01"),
@@ -262,6 +272,14 @@ export const factoryStakeConfig: Record<number, StakingConfig> = {
 
 export const paymasterStakeConfig: Record<number, StakingConfig> = {
   // Testnets
+  20240801: {
+    unstakeDelayInSec: 60 * 60 * 24, // 1 Day
+    stakeInWei: parseEther("1000"),
+  },
+  12345: {
+    unstakeDelayInSec: 60 * 60 * 24, // 1 Day
+    stakeInWei: parseEther("1000"),
+  },
   80001: {
     unstakeDelayInSec: 60 * 60 * 24, // 1 Day
     stakeInWei: parseEther("0.01"),
@@ -454,7 +472,8 @@ export const deployContract = async (
 
   console.log(`Submitted transaction ${hash} for deployment`);
 
-  const { status, logs, blockNumber } = await wait(5);
+  // const { status, logs, blockNumber } = await wait(5);
+  const { status, logs, blockNumber } = await wait();
 
   if (status !== 1) {
     throw new Error(`Transaction ${hash} failed`);

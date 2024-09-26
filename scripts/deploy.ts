@@ -10,7 +10,6 @@ import {
   paymasterStakeConfig,
 } from "./utils";
 import {
-  BatchedSessionRouter__factory,
   Deployer,
   Deployer__factory,
   ERC20SessionValidationModule__factory,
@@ -76,14 +75,17 @@ export async function deployGeneric(
       );
     }
 
-    try {
-      console.log(`Attempting to verify ${contractName}...`);
-      await run("verify:verify", {
-        address: computedAddress,
-        constructorArguments,
-      });
-    } catch (err) {
-      console.log("Error while verifying: ", err);
+    // disable verifying for now
+    if (parseInt(process.env.ENABLE_VERIFYING!) === 1) {
+      try {
+        console.log(`Attempting to verify ${contractName}...`);
+        await run("verify:verify", {
+          address: computedAddress,
+          constructorArguments,
+        });
+      } catch (err) {
+        console.log("Error while verifying: ", err);
+      }
     }
 
     contractsDeployed[contractName] = computedAddress;
@@ -97,7 +99,7 @@ export async function deployGeneric(
 
 async function deployEntryPointContract(deployerInstance: Deployer) {
   const chainId = (await provider.getNetwork()).chainId;
-  if (chainId !== 31337) {
+  if (chainId !== 31337 && chainId !== parseInt(process.env.CHAIN_ID!)) {
     console.log("Entry Point Already Deployed Address: ", entryPointAddress);
     return;
   }
@@ -308,16 +310,6 @@ async function deploySessionKeyManagerModule(deployerInstance: Deployer) {
   );
 }
 
-async function deployBatchedSessionRouterModule(deployerInstance: Deployer) {
-  await deployGeneric(
-    deployerInstance,
-    DEPLOYMENT_SALTS.BATCHED_SESSION_ROUTER_MODULE,
-    `${BatchedSessionRouter__factory.bytecode}`,
-    "BatchedSessionRouterModule",
-    []
-  );
-}
-
 async function deployErc20SessionValidationModule(deployerInstance: Deployer) {
   await deployGeneric(
     deployerInstance,
@@ -420,8 +412,8 @@ export async function mainDeploy(): Promise<Record<string, string>> {
   console.log("=========================================");
   await deploySessionKeyManagerModule(deployerInstance);
   console.log("=========================================");
-  await deployBatchedSessionRouterModule(deployerInstance);
-  console.log("=========================================");
+  // await deployBatchedSessionRouterModule(deployerInstance);
+  // console.log("=========================================");
   await deployErc20SessionValidationModule(deployerInstance);
   console.log("=========================================");
   await deploySmartContractOwnershipRegistryModule(deployerInstance);
