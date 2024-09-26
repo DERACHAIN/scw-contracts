@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import * as dotenv from "dotenv";
 
 import { HardhatUserConfig, task } from "hardhat/config";
@@ -12,6 +13,7 @@ import "@nomiclabs/hardhat-ethers";
 import "hardhat-dependency-compiler";
 import { parseUnits } from "ethers/lib/utils";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const walletUtils = require("./walletUtils");
 
 dotenv.config();
@@ -59,6 +61,11 @@ const config: HardhatUserConfig = {
     ],
   },
   networks: {
+    derachain: {
+      chainId: 20240801,
+      url: "https://rpc-testnet.derachain.com/ext/bc/2LZp9ypK4SWm3a8MBYZbxTZgKbvB4aemUf83cBp1hSnvP7SFiw/rpc",
+      accounts: [process.env.PRIVATE_KEY!],
+    },
     hardhat: {
       ...(shouldRunInForkMode
         ? {
@@ -278,6 +285,7 @@ const config: HardhatUserConfig = {
   },
   etherscan: {
     apiKey: {
+      derachain: "empty",
       mainnet: process.env.ETHERSCAN_API_KEY || "",
       goerli: process.env.ETHERSCAN_API_KEY || "",
       polygonMumbai: process.env.POLYGONSCAN_API_KEY || "",
@@ -307,6 +315,14 @@ const config: HardhatUserConfig = {
       comboTestnet: process.env.COMBO_API_KEY || "",
     },
     customChains: [
+      {
+        network: "derachain",
+        chainId: 20240801,
+        urls: {
+          apiURL: "https://trace.derachain.com/api",
+          browserURL: "https://trace.derachain.com",
+        },
+      },
       {
         network: "arbitrumNova",
         chainId: 42170,
