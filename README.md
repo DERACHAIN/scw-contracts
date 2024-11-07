@@ -129,6 +129,22 @@ Deployed Contracts:  {
 ```
 
 ## Verify
+The verification of smart contracts should be conducted in the following sequence.
+
+- Deployer
+```sh
+$ npx hardhat verify <deployer-address> --network derachain
+```
+
+- EntryPoint
+```sh
+$ npx hardhat verify <entrypoint-address> --network derachain
+```
+
+- SmartAccount template
+```sh
+$ npx hardhat verify <sa-template-address> <entry-point-address> --network derachain
+```
 
 - Verify smart contracts on DERA chain
 ```sh

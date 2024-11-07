@@ -12,6 +12,7 @@ import {
 import {
   Deployer,
   Deployer__factory,
+  EntryPoint__factory,
   ERC20SessionValidationModule__factory,
   EcdsaOwnershipRegistryModule__factory,
   MultichainECDSAValidator__factory,
@@ -22,7 +23,7 @@ import {
   SmartContractOwnershipRegistryModule__factory,
   VerifyingSingletonPaymaster__factory,
 } from "../typechain";
-import { EntryPoint__factory } from "@account-abstraction/contracts";
+// import { EntryPoint__factory } from "@account-abstraction/contracts";
 import { formatEther, isAddress } from "ethers/lib/utils";
 
 // Deployment Configuration
@@ -107,7 +108,8 @@ async function deployEntryPointContract(deployerInstance: Deployer) {
   entryPointAddress = await deployGeneric(
     deployerInstance,
     DEPLOYMENT_SALTS.ENTRY_POINT,
-    EntryPoint__factory.bytecode,
+    // EntryPoint__factory.bytecode,
+    `${EntryPoint__factory.bytecode}`,
     "EntryPoint",
     []
   );

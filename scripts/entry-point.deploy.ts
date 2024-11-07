@@ -1,7 +1,7 @@
 import { ethers, network } from "hardhat";
 import {
   deployContract,
-  DEPLOYMENT_SALTS_DEV,
+  DEPLOYMENT_SALTS_PROD,
   getDeployerInstance,
   isContract,
 } from "./utils";
@@ -9,10 +9,12 @@ import {
 async function main() {
   const provider = ethers.provider;
 
-  if (network.name !== "hardhat" || network.name !== "local") {
-    console.log("Entry Point Already Deployed Address: ");
-    return;
-  }
+  // if (network.name !== "hardhat" || network.name !== "local") {
+  //   console.log("Entry Point Already Deployed Address: ");
+  //   return;
+  // }
+
+  const DEPLOYMENT_SALTS = DEPLOYMENT_SALTS_PROD;
 
   const deployerInstance = await getDeployerInstance();
   const salt = ethers.utils.keccak256(
