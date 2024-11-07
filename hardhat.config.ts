@@ -63,7 +63,7 @@ const config: HardhatUserConfig = {
   networks: {
     derachain: {
       chainId: 20240801,
-      url: "https://rpc-testnet.derachain.com/ext/bc/2LZp9ypK4SWm3a8MBYZbxTZgKbvB4aemUf83cBp1hSnvP7SFiw/rpc",
+      url: "https://rpc-testnet.derachain.com/ext/bc/2WMFYSdPEx6LR3gsQfQtiezMwSUijqxuPa61wVE66rnc2aHKL6/rpc",
       accounts: [process.env.PRIVATE_KEY!],
     },
     hardhat: {
