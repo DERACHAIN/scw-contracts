@@ -23,7 +23,6 @@ import {
   SmartContractOwnershipRegistryModule__factory,
   VerifyingSingletonPaymaster__factory,
 } from "../typechain";
-// import { EntryPoint__factory } from "@account-abstraction/contracts";
 import { formatEther, isAddress } from "ethers/lib/utils";
 
 // Deployment Configuration
