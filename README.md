@@ -146,6 +146,9 @@ $ npx hardhat verify <entrypoint-address> --network derachain
 $ npx hardhat verify <sa-template-address> <entry-point-address> --network derachain
 ```
 
+- SmartAccount Factory
+```sh
+
 - Verify smart contracts on DERA chain
 ```sh
 $ npx hardhat verify <contract-address> --network derachain
