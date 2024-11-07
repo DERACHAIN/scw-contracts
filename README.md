@@ -129,29 +129,34 @@ Deployed Contracts:  {
 ```
 
 ## Verify
-The verification of smart contracts should be conducted in the following sequence.
+The verification of smart contracts should be conducted in the following sequence. Note that all commands contain the argument `--network derachain`.
 
 - Deployer
 ```sh
-$ npx hardhat verify <deployer-address> --network derachain
+$ npx hardhat verify <deployer-address>
 ```
 
 - EntryPoint
 ```sh
-$ npx hardhat verify <entrypoint-address> --network derachain
+$ npx hardhat verify <entrypoint-address>
 ```
 
 - SmartAccount template
 ```sh
-$ npx hardhat verify <sa-template-address> <entry-point-address> --network derachain
+$ npx hardhat verify <sa-template-address> <entry-point-address>
 ```
 
-- Verify smart contracts on DERA chain
+- SmartAccount Factory
 ```sh
-$ npx hardhat verify <contract-address> --network derachain
+$ npx hardhat verify <sa-factory-address> <sa-template> <eoa-signer>
 ```
 
-or with constructor arguments
+- VerifyingPaymaster
 ```sh
-$ npx hardhat verify <contract-address> <constructor-arg1> <constructor-arg2> ... --network derachain
+$ npx hardhat verify <verifying-paymaster-address> <eoa-signer> <entry-point-address> <eoa-paymaster>
+```
+
+- ECDSAOwnershipModule, MultichainValidatorModule, PasskeyModule, SessionKeyManagerModule, ERC20SessionValidationModule, SmartContractOwnershipModule
+```sh
+$ npx hardhat verify <module-address>
 ```
